@@ -23,7 +23,7 @@ x=df.drop(columns=['Please mention your Previous Semester GPA?'],axis=1)
 
 #Train Data Split
 from sklearn.model_selection import train_test_split
-X_train, X_test, y_train, y_test = train_test_split(x,y,test_size = 0.2,random_state = 0)
+X_train, X_test, y_train, y_test = train_test_split(x,y,test_size = 0.2,random_state = 10)
 
 #Import scikit-learn metrics module for accuracy calculation
 from sklearn import metrics
@@ -57,10 +57,13 @@ for column in df:
   mse = mean_squared_error(y, predicted)
   r2 = r2_score(y, predicted)
   #print(column, "MSE:", mse, "RMSE:", np.sqrt(mse),"R-Squared:", r2)
-  print(column, "RMSE:", round(np.sqrt(mse), 4),'\t', "R-Squared:", round(r2,4) , '\n')
+#   print(column, "RMSE:", round(np.sqrt(mse), 4),'\t', "R-Squared:", round(r2,4) , '\n')
   
+#Classification 
 
+import pandas as pd
 
+df=pd.read_csv("studentsResponses.csv")
 
 
 
