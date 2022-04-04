@@ -44,30 +44,30 @@ Logistic Regression
 
 from sklearn.neighbors import KNeighborsClassifier
 
-# error_rate = []
+error_rate = []
 
-# for i in range(1,50):
-#     knn = KNeighborsClassifier(n_neighbors=i)
-#     knn.fit(X_train, y_train)
-#     pred = knn.predict(X_test)
-#     error_rate.append(np.mean(pred != y_test))
+for i in range(1,50):
+    knn = KNeighborsClassifier(n_neighbors=i)
+    knn.fit(X_train, y_train)
+    pred = knn.predict(X_test)
+    error_rate.append(np.mean(pred != y_test))
 
-# plt.figure(figsize=(15,10))
-# plt.plot(range(1,50),error_rate, marker='o', markersize=9)
+plt.figure(figsize=(15,10))
+plt.plot(range(1,50),error_rate, marker='o', markersize=9)
 
 
-# from sklearn.neighbors import KNeighborsClassifier
-# from sklearn import metrics
-# neigh = KNeighborsClassifier(n_neighbors=3)
-# neigh.fit(x, y)
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn import metrics
+neigh = KNeighborsClassifier(n_neighbors=3)
+neigh.fit(x, y)
 # print(metrics.classification_report(y_test,neigh.predict(X_test)))
 
-# from sklearn.neighbors import KNeighborsClassifier
-# from sklearn import metrics
-# for i in range(1,50):
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn import metrics
+for i in range(1,50):
 #   print('Number of clusters are',i,'\n')
-#   neigh = KNeighborsClassifier(n_neighbors=i)
-#   neigh.fit(x, y)
+  neigh = KNeighborsClassifier(n_neighbors=i)
+  neigh.fit(x, y)
 #   print(metrics.classification_report(y_test,neigh.predict(X_test)))
 #   print('\n')
 
@@ -77,24 +77,24 @@ from sklearn.neighbors import KNeighborsClassifier
 #Import Gaussian Naive Bayes model
 from sklearn.naive_bayes import GaussianNB
 
-# #Create a Gaussian Classifier
-# gnb = GaussianNB()
+#Create a Gaussian Classifier
+gnb = GaussianNB()
 
-# #Train the model using the training sets
-# gnb.fit(X_train, y_train)
+#Train the model using the training sets
+gnb.fit(X_train, y_train)
 
 
 
-# #Predict the response for test dataset
-# y_pred = gnb.predict(X_test)
+#Predict the response for test dataset
+y_pred = gnb.predict(X_test)
 
-# #Import scikit-learn metrics module for accuracy calculation
-# from sklearn import metrics
+#Import scikit-learn metrics module for accuracy calculation
+from sklearn import metrics
 
-# # Model Accuracy, how often is the classifier correct?
+# Model Accuracy, how often is the classifier correct?
 # print("Accuracy:",metrics.accuracy_score(y_test, y_pred))
 
-# from sklearn.metrics import classification_report
+from sklearn.metrics import classification_report
 # print(metrics.classification_report(y_test,y_pred))
 
 
@@ -103,9 +103,9 @@ from sklearn.naive_bayes import GaussianNB
 
 from sklearn import tree
 clf = tree.DecisionTreeClassifier()
-# clf = clf.fit(X_train, y_train)
+clf = clf.fit(X_train, y_train)
 
-# y_pred = clf.predict(X_test)
+y_pred = clf.predict(X_test)
 
 # print(metrics.classification_report(y_test,y_pred))
 
@@ -113,20 +113,20 @@ clf = tree.DecisionTreeClassifier()
 """# Support Vector Machine Classifier"""
 
 from sklearn.svm import SVC
-# classifier = SVC()
-# clf = classifier.fit(X_train, y_train)
+classifier = SVC()
+clf = classifier.fit(X_train, y_train)
 
-# y_pred = clf.predict(X_test)
+y_pred = clf.predict(X_test)
 
 # print(metrics.classification_report(y_test,y_pred))
 
 """# Linear Model Classifier  -Logistic Regression"""
 
 from sklearn.linear_model import LogisticRegression
-# classifier = LogisticRegression()
-# clf = classifier.fit(X_train, y_train)
+classifier = LogisticRegression()
+clf = classifier.fit(X_train, y_train)
 
-# y_pred = clf.predict(X_test)
+y_pred = clf.predict(X_test)
 
 # print(metrics.classification_report(y_test,y_pred))
 
