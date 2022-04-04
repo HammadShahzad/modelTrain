@@ -5,7 +5,7 @@ import numpy as np
 from sklearn import metrics
 
 df=pd.read_csv("studentsResponses.csv")
-df['Pass/Fail']= df ['Please mention your Previous Semester GPA?'].apply(lambda x: 'Pass' if float(x)>2 else 'fail')
+df['Pass/Fail']= df ['Please mention your Previous Semester GPA?'].apply(lambda x: 'Pass' if float(x)>2.3 else 'fail')
 
 # df.columns[df.isna().any()]  find null columns Name
 # df.Age = df.Age.fillna(df.Age.mean()) fill the column with mean value
@@ -23,8 +23,6 @@ def Encoder(df):
           return df
 df = Encoder(df).dropna()
 
-
-
 """# **Training Settings**"""
 
 y=df.iloc[:,-1]
@@ -34,13 +32,19 @@ x=df.drop(columns=['Please mention your Previous Semester GPA?'],axis=1)
 from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(x,y,test_size = 0.2,random_state = 10)
 
-"""# Here we are applying different classifiers to get the one with best accuracy.
-
-# KNN Classifier
+"""# Here we are applying different classifiers to get the one with best accuracy. """
+"""# Binary Classification """
+"""#
+k-Nearest Neighbors
+Naive Bayes
+Decision Trees
+Support Vector Machine
+Logistic Regression
 """
 
-# from sklearn.neighbors import KNeighborsClassifier
+# KNN Classifier """
 
+from sklearn.neighbors import KNeighborsClassifier
 
 # error_rate = []
 
@@ -72,8 +76,8 @@ X_train, X_test, y_train, y_test = train_test_split(x,y,test_size = 0.2,random_s
 
 """# Naive_Bayes Classifier"""
 
-# #Import Gaussian Naive Bayes model
-# from sklearn.naive_bayes import GaussianNB
+#Import Gaussian Naive Bayes model
+from sklearn.naive_bayes import GaussianNB
 
 # #Create a Gaussian Classifier
 # gnb = GaussianNB()
@@ -99,8 +103,8 @@ X_train, X_test, y_train, y_test = train_test_split(x,y,test_size = 0.2,random_s
 """# Decision Tree Classifier"""
 
 
-# from sklearn import tree
-# clf = tree.DecisionTreeClassifier()
+from sklearn import tree
+clf = tree.DecisionTreeClassifier()
 # clf = clf.fit(X_train, y_train)
 
 # y_pred = clf.predict(X_test)
@@ -111,22 +115,40 @@ X_train, X_test, y_train, y_test = train_test_split(x,y,test_size = 0.2,random_s
 """# Support Vector Machine Classifier"""
 
 from sklearn.svm import SVC
-classifier = SVC()
-clf = classifier.fit(X_train, y_train)
+# classifier = SVC()
+# clf = classifier.fit(X_train, y_train)
 
-y_pred = clf.predict(X_test)
+# y_pred = clf.predict(X_test)
 
-print(metrics.classification_report(y_test,y_pred))
+# print(metrics.classification_report(y_test,y_pred))
 
 """# Linear Model Classifier  -Logistic Regression"""
 
 from sklearn.linear_model import LogisticRegression
-classifier = LogisticRegression()
-clf = classifier.fit(X_train, y_train)
+# classifier = LogisticRegression()
+# clf = classifier.fit(X_train, y_train)
 
-y_pred = clf.predict(X_test)
+# y_pred = clf.predict(X_test)
 
-print(metrics.classification_report(y_test,y_pred))
+# print(metrics.classification_report(y_test,y_pred))
+
+
+
+from sklearn.model_selection import cross_val_score
+
+print ( "KNN",cross_val_score (KNeighborsClassifier(n_neighbors=5),x,y))
+print ( "Naive Bayes", cross_val_score(GaussianNB(),x,y))
+print ("Decision Tree", cross_val_score(tree.DecisionTreeClassifier(),x,y))
+print ("SVC", cross_val_score(SVC(),x,y))
+print ("Logistic Regression", cross_val_score(LogisticRegression(),x,y))
+
+
+
+# KNN [0.808 0.816 0.8   0.808 0.808]
+# Naive Bayes [1.    1.    1.    1.    0.992]
+# Decision Tree [1. 1. 1. 1. 1.]
+# SVC [0.832 0.832 0.832 0.832 0.824]
+# Logistic Regression [0.824 0.832 0.848 0.832 0.84 ]
 
   
 # %%
