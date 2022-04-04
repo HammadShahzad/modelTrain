@@ -144,7 +144,7 @@ y_pred = clf.predict(X_test)
 """# Linear Model Classifier  -Logistic Regression"""
 
 from sklearn.linear_model import LogisticRegression
-classifier = LogisticRegression()
+classifier = LogisticRegression(solver='lbfgs',max_iter=100)
 clf = classifier.fit(X_train, y_train)
 
 y_pred = clf.predict(X_test)
@@ -159,7 +159,7 @@ print ( "KNN",cross_val_score (KNeighborsClassifier(n_neighbors=5),x,y))
 print ( "Naive Bayes", cross_val_score(GaussianNB(),x,y))
 print ("Decision Tree", cross_val_score(tree.DecisionTreeClassifier(),x,y))
 print ("SVC", cross_val_score(SVC(),x,y))
-print ("Logistic Regression", cross_val_score(LogisticRegression(),x,y))
+print ("Logistic Regression", cross_val_score(LogisticRegression(solver='lbfgs',max_iter=100),x,y))
 
 
 
