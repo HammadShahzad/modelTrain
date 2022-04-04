@@ -20,11 +20,30 @@ def Encoder(df):
           return df
 df = Encoder(df).fillna(df.mean())
 
+# Remove Nan Values
+# df = Encoder(df).dropna()     
+
+
+# """## **KNN-Imputer**"""
+
+# import numpy as np
+# from sklearn.impute import KNNImputer
+# imputer = KNNImputer(n_neighbors=2)
+# df1 = imputer.fit_transform(df)
+
+# df2 = pd.DataFrame(df1, columns = df.columns)
+
+# # print(df1)
+# # print(type(df))
+# # df2.isnull().sum()
+
+
 
 """# **Training Settings**"""
 
 y=df.iloc[:,-1]
-x=df.drop(columns=['Please mention your Previous Semester GPA?'],axis=1)
+x=df.drop(columns=['Please mention your Previous Semester GPA?','Pass/Fail'],axis=1)
+
 
 #Train Data Split
 from sklearn.model_selection import train_test_split
@@ -39,6 +58,8 @@ Decision Trees
 Support Vector Machine
 Logistic Regression
 """
+
+
 
 # KNN Classifier """
 
@@ -142,20 +163,29 @@ print ("Logistic Regression", cross_val_score(LogisticRegression(),x,y))
 
 
 
-# KNN [0.808 0.816 0.8   0.808 0.808]
-# Naive Bayes [1.    1.    1.    1.    0.992]
-# Decision Tree [1. 1. 1. 1. 1.]
-# SVC [0.832 0.832 0.832 0.832 0.824]
-# Logistic Regression [0.824 0.832 0.848 0.832 0.84 ]
-
-
-"""# After Replacing Nan Values with Mean"""
+""" #With KNN Imputer for Nan Values """
 
 # KNN [0.828125   0.81889764 0.80314961 0.80314961 0.81102362]
-# Naive Bayes [1.         1.         1.         1.         0.99212598]
-# Decision Tree [1. 1. 1. 1. 1.]
+# Naive Bayes [0.546875   0.48818898 0.77165354 0.57480315 0.8503937 ]
+# Decision Tree [0.828125   0.86614173 0.95275591 0.82677165 0.92913386]       Good Results
 # SVC [0.828125   0.83464567 0.83464567 0.82677165 0.82677165]
-# Logistic Regression [0.8203125  0.87401575 0.8503937  0.86614173 0.84251969]
+# Logistic Regression [0.8046875  0.86614173 0.83464567 0.81889764 0.81102362]
+
+""" #By using Dropna for Nan values"""
+
+# KNN [0.808 0.816 0.8   0.808 0.808]
+# Naive Bayes [0.536 0.504 0.792 0.576 0.848]
+# Decision Tree [0.904 0.88  0.952 0.816 0.92 ]                    Good Result
+# SVC [0.832 0.832 0.832 0.832 0.824]
+# Logistic Regression [0.816 0.792 0.816 0.736 0.808]
+
+""" #By Replacing Nan values with mean """
+
+# KNN [0.828125   0.81889764 0.80314961 0.80314961 0.81102362]
+# Naive Bayes [0.546875   0.48818898 0.77952756 0.56692913 0.8503937 ]
+# Decision Tree [0.828125   0.87401575 0.95275591 0.81889764 0.92913386]    Good Result
+# SVC [0.828125   0.83464567 0.83464567 0.82677165 0.82677165]
+# Logistic Regression [0.8125     0.86614173 0.84251969 0.81102362 0.80314961]
 
   
 # %%
