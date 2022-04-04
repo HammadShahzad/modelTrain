@@ -7,9 +7,6 @@ from sklearn import metrics
 df=pd.read_csv("studentsResponses.csv")
 df['Pass/Fail']= df ['Please mention your Previous Semester GPA?'].apply(lambda x: 'Pass' if float(x)>2.3 else 'fail')
 
-# df.columns[df.isna().any()]  find null columns Name
-# df.Age = df.Age.fillna(df.Age.mean()) fill the column with mean value
-
 from sklearn.preprocessing import LabelEncoder
 
 def Encoder(df):
@@ -21,7 +18,8 @@ def Encoder(df):
               except:
                   print('Error encoding '+feature)
           return df
-df = Encoder(df).dropna()
+df = Encoder(df).fillna(df.mean())
+
 
 """# **Training Settings**"""
 
@@ -149,6 +147,15 @@ print ("Logistic Regression", cross_val_score(LogisticRegression(),x,y))
 # Decision Tree [1. 1. 1. 1. 1.]
 # SVC [0.832 0.832 0.832 0.832 0.824]
 # Logistic Regression [0.824 0.832 0.848 0.832 0.84 ]
+
+
+"""# After Replacing Nan Values with Mean"""
+
+# KNN [0.828125   0.81889764 0.80314961 0.80314961 0.81102362]
+# Naive Bayes [1.         1.         1.         1.         0.99212598]
+# Decision Tree [1. 1. 1. 1. 1.]
+# SVC [0.828125   0.83464567 0.83464567 0.82677165 0.82677165]
+# Logistic Regression [0.8203125  0.87401575 0.8503937  0.86614173 0.84251969]
 
   
 # %%
