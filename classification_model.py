@@ -1,8 +1,10 @@
 #%%
+from math import gamma
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn import metrics
+from sklearn import svm
 
 df=pd.read_csv("studentsResponses.csv")
 df['Pass/Fail']= df ['Please mention your Previous Semester GPA?'].apply(lambda x: 'Pass' if float(x)>2.3 else 'fail')
@@ -141,25 +143,36 @@ y_pred = clf.predict(X_test)
 
 # print(metrics.classification_report(y_test,y_pred))
 
-"""# Linear Model Classifier  -Logistic Regression"""
+# """# Linear Model Classifier  -Logistic Regression"""
 
-from sklearn.linear_model import LogisticRegression
-classifier = LogisticRegression(solver='lbfgs',max_iter=100)
-clf = classifier.fit(X_train, y_train)
+# from sklearn.linear_model import LogisticRegression
+# classifier = LogisticRegression(solver='lbfgs',max_iter=100)
+# clf = classifier.fit(X_train, y_train)
 
-y_pred = clf.predict(X_test)
+# y_pred = clf.predict(X_test)
 
 # print(metrics.classification_report(y_test,y_pred))
 
 
+""" K fold cross validation """
 
 from sklearn.model_selection import cross_val_score
 
-print ( "KNN",cross_val_score (KNeighborsClassifier(n_neighbors=5),x,y))
-print ( "Naive Bayes", cross_val_score(GaussianNB(),x,y))
-print ("Decision Tree", cross_val_score(tree.DecisionTreeClassifier(),x,y))
-print ("SVC", cross_val_score(SVC(),x,y))
-print ("Logistic Regression", cross_val_score(LogisticRegression(solver='lbfgs',max_iter=100),x,y))
+# print ( "KNN",cross_val_score (KNeighborsClassifier(n_neighbors=5),x,y))
+# print ( "Naive Bayes", cross_val_score(GaussianNB(),x,y))
+# print ("Decision Tree", cross_val_score(tree.DecisionTreeClassifier(),x,y))
+# print ("SVC", cross_val_score(SVC(),x,y))
+# print ("Logistic Regression", cross_val_score(LogisticRegression(solver='lbfgs',max_iter=100),x,y))
+
+
+from sklearn.model_selection import GridSearchCV
+clf=GridSearchCV(svm.SVC(gamma='auto'), {
+    'C':[1,10,20],
+    'kernel':['rbf','linear']
+}, cv=5,return_train_score=False)
+clf.fit(x,y)
+df_check=pd.DataFrame(clf.cv_results_)
+print(df_check[['param_C', 'param_kernel', 'mean_test_score']])
 
 
 
