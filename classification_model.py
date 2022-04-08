@@ -250,7 +250,7 @@ print(metrics.classification_report(y_test, prediction))
 
 """------------------------------------------------------------------------------------------------------------------------------------"""
 
-""" #By using Dropna for Nan values"""
+""" By using Dropna for Nan values"""
 
 # KNN [0.808 0.816 0.8   0.808 0.808]
 # Naive Bayes [0.536 0.504 0.792 0.576 0.848]
