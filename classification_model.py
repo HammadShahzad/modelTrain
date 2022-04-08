@@ -1,5 +1,7 @@
 #%%
+import csv
 from math import gamma
+from statistics import mean
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
@@ -8,6 +10,7 @@ from sklearn import svm
 
 df=pd.read_csv("studentsResponses.csv")
 df['Pass/Fail']= df ['Please mention your Previous Semester GPA?'].apply(lambda x: 'Pass' if float(x)>2.3 else 'fail')
+
 
 from sklearn.preprocessing import LabelEncoder
 
@@ -62,8 +65,9 @@ Logistic Regression
 """
 
 
+"""------------------------------------------------------------------------------------------------------------------------------------"""
 
-# KNN Classifier """
+""" KNN Classifier """
 
 from sklearn.neighbors import KNeighborsClassifier
 
@@ -94,6 +98,7 @@ for i in range(1,50):
 #   print(metrics.classification_report(y_test,neigh.predict(X_test)))
 #   print('\n')
 
+"""------------------------------------------------------------------------------------------------------------------------------------"""
 
 """# Naive_Bayes Classifier"""
 
@@ -120,6 +125,7 @@ from sklearn import metrics
 from sklearn.metrics import classification_report
 # print(metrics.classification_report(y_test,y_pred))
 
+"""------------------------------------------------------------------------------------------------------------------------------------"""
 
 """# Decision Tree Classifier"""
 
@@ -132,6 +138,7 @@ y_pred = clf.predict(X_test)
 
 # print(metrics.classification_report(y_test,y_pred))
 
+"""------------------------------------------------------------------------------------------------------------------------------------"""
 
 """# Support Vector Machine Classifier"""
 
@@ -143,9 +150,11 @@ y_pred = clf.predict(X_test)
 
 # print(metrics.classification_report(y_test,y_pred))
 
-# """# Linear Model Classifier  -Logistic Regression"""
+"""------------------------------------------------------------------------------------------------------------------------------------"""
 
-# from sklearn.linear_model import LogisticRegression
+"""# Linear Model Classifier  -Logistic Regression"""
+
+from sklearn.linear_model import LogisticRegression
 # classifier = LogisticRegression(solver='lbfgs',max_iter=100)
 # clf = classifier.fit(X_train, y_train)
 
@@ -153,28 +162,83 @@ y_pred = clf.predict(X_test)
 
 # print(metrics.classification_report(y_test,y_pred))
 
+"""------------------------------------------------------------------------------------------------------------------------------------"""
+
+"""# **Multi-layer Perceptron (MLP)**"""   # might getting wrong value accuracy upto 1.00
+
+from scipy.stats import zscore
+import statsmodels.api as sm
+
+
+df1= df.drop(['Please mention your Previous Semester GPA?','Pass/Fail'], axis =1)
+
+df_z = zscore(df1)
+df_zscore =pd.DataFrame(df_z)
+
+#df_zscore
+lst = []
+for col_name in df1.columns: 
+  lst.append(col_name)
+df_zscore.columns = lst
+
+df = df_zscore
+
+x = df
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(x,y,test_size = 0.2,random_state = 0)
+
+print(x.head())
+print(y.tail())
+
+#activation{‘identity’, ‘logistic’, ‘tanh’, ‘relu’}, default=’relu’
+#solver{‘lbfgs’, ‘sgd’, ‘adam’}, default=’adam’
+from sklearn.neural_network import MLPClassifier
+clf = MLPClassifier(random_state=5, verbose = False, learning_rate_init= 0.01, activation = 'logistic')
+clf.fit(x, y)
+
+from sklearn import metrics
+prediction = clf.predict(X_test)
+
+print(metrics.classification_report(y_test, prediction))
+
+
+"""------------------------------------------------------------------------------------------------------------------------------------"""
 
 """ K fold cross validation """
 
-from sklearn.model_selection import cross_val_score
+# from sklearn.model_selection import cross_val_score
+# from sklearn.model_selection import KFold
+# cv = KFold(n_splits=10, random_state=1, shuffle=True)
 
-# print ( "KNN",cross_val_score (KNeighborsClassifier(n_neighbors=5),x,y))
-# print ( "Naive Bayes", cross_val_score(GaussianNB(),x,y))
-# print ("Decision Tree", cross_val_score(tree.DecisionTreeClassifier(),x,y))
-# print ("SVC", cross_val_score(SVC(),x,y))
-# print ("Logistic Regression", cross_val_score(LogisticRegression(solver='lbfgs',max_iter=100),x,y))
+# knn_score=cross_val_score (KNeighborsClassifier(n_neighbors=5),x,y,cv=cv)
+# print("kNN", mean(knn_score))
+
+# naivebayes_score=cross_val_score (GaussianNB(),x,y,cv=cv)
+# print("Naive Bayes", mean(naivebayes_score))
+
+# decisiontree_score=cross_val_score (tree.DecisionTreeClassifier(),x,y, cv=cv)
+# print("Decision Tree", mean(decisiontree_score))
+
+# svc_score=cross_val_score (SVC(),x,y, cv=cv)
+# print("SVC", mean(svc_score))
+
+# logistic_score=cross_val_score (LogisticRegression(solver='lbfgs', max_iter=700),x,y, cv=cv)
+# print("Logistic Regression", mean(logistic_score))
+
+"""------------------------------------------------------------------------------------------------------------------------------------"""
+
+# from sklearn.model_selection import GridSearchCV
+# clf=GridSearchCV(svm.SVC(gamma='auto'), {
+#     'C':[1,10,20],
+#     'kernel':['rbf','linear']
+# }, cv=5,return_train_score=False)
+# clf.fit(x,y)
+# df_check=pd.DataFrame(clf.cv_results_)
+# print(df_check[['param_C', 'param_kernel', 'mean_test_score']])
 
 
-from sklearn.model_selection import GridSearchCV
-clf=GridSearchCV(svm.SVC(gamma='auto'), {
-    'C':[1,10,20],
-    'kernel':['rbf','linear']
-}, cv=5,return_train_score=False)
-clf.fit(x,y)
-df_check=pd.DataFrame(clf.cv_results_)
-print(df_check[['param_C', 'param_kernel', 'mean_test_score']])
 
-
+"""------------------------------------------------------------------------------------------------------------------------------------"""
 
 """ #With KNN Imputer for Nan Values """
 
@@ -184,6 +248,8 @@ print(df_check[['param_C', 'param_kernel', 'mean_test_score']])
 # SVC [0.828125   0.83464567 0.83464567 0.82677165 0.82677165]
 # Logistic Regression [0.8046875  0.86614173 0.83464567 0.81889764 0.81102362]
 
+"""------------------------------------------------------------------------------------------------------------------------------------"""
+
 """ #By using Dropna for Nan values"""
 
 # KNN [0.808 0.816 0.8   0.808 0.808]
@@ -192,13 +258,31 @@ print(df_check[['param_C', 'param_kernel', 'mean_test_score']])
 # SVC [0.832 0.832 0.832 0.832 0.824]
 # Logistic Regression [0.816 0.792 0.816 0.736 0.808]
 
+""" K fold  of 10 Iterations """ 
+
+# KNN [0.875      0.84375    0.890625   0.75       0.765625   0.75 0.88888889 0.84126984 0.85714286 0.77777778]
+# Naive Bayes [0.71875    0.6875     0.84375    0.703125   0.65625    0.671875  0.74603175 0.6031746  0.68253968 0.44444444]
+# Decision Tree [0.875      0.9375     0.890625   0.828125   0.796875   0.875 0.95238095 0.93650794 0.92063492 0.92063492]
+# SVC [0.875      0.859375   0.875      0.71875    0.8125     0.78125 0.88888889 0.85714286 0.84126984 0.79365079]
+# Logistic Regression [0.890625   0.90625    0.875      0.78125    0.875      0.828125 0.92063492 0.88888889 0.85714286 0.84126984]
+
+""" K fold Mean Value of 10 Iterations """ 
+
+# kNN 0.8240079365079365
+# Naive Bayes 0.6757440476190476
+# Decision Tree 0.8933035714285714   
+# SVC 0.8302827380952381
+# Logistic Regression 0.8664186507936508
+
+"""------------------------------------------------------------------------------------------------------------------------------------"""
+
 """ #By Replacing Nan values with mean """
 
 # KNN [0.828125   0.81889764 0.80314961 0.80314961 0.81102362]
 # Naive Bayes [0.546875   0.48818898 0.77952756 0.56692913 0.8503937 ]
 # Decision Tree [0.828125   0.87401575 0.95275591 0.81889764 0.92913386]    Good Result
 # SVC [0.828125   0.83464567 0.83464567 0.82677165 0.82677165]
-# Logistic Regression [0.8125     0.86614173 0.84251969 0.81102362 0.80314961]
+# Logistic Regression [0.8125 0.86614173 0.84251969 0.81102362 0.80314961]
 
   
 # %%
