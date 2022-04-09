@@ -46,9 +46,8 @@ df = Encoder(df).fillna(df.mean())
 
 """# **Training Settings**"""
 
-y=df.iloc[:,-1]
 x=df.drop(columns=['Please mention your Previous Semester GPA?','Pass/Fail'],axis=1)
-
+y=df.iloc[:,-1]
 
 #Train Data Split
 from sklearn.model_selection import train_test_split
@@ -63,8 +62,6 @@ Decision Trees
 Support Vector Machine
 Logistic Regression
 """
-
-
 """------------------------------------------------------------------------------------------------------------------------------------"""
 
 """ KNN Classifier """
@@ -110,8 +107,6 @@ gnb = GaussianNB()
 
 #Train the model using the training sets
 gnb.fit(X_train, y_train)
-
-
 
 #Predict the response for test dataset
 y_pred = gnb.predict(X_test)
@@ -201,7 +196,6 @@ prediction = clf.predict(X_test)
 
 print(metrics.classification_report(y_test, prediction))
 
-
 """------------------------------------------------------------------------------------------------------------------------------------"""
 
 """ K fold cross validation """
@@ -235,8 +229,6 @@ print(metrics.classification_report(y_test, prediction))
 # clf.fit(x,y)
 # df_check=pd.DataFrame(clf.cv_results_)
 # print(df_check[['param_C', 'param_kernel', 'mean_test_score']])
-
-
 
 """------------------------------------------------------------------------------------------------------------------------------------"""
 
